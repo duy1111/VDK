@@ -4,7 +4,7 @@ import {GiOilPump} from 'react-icons/gi'
 import {TbWindmill} from 'react-icons/tb'
 import {BsLightbulb,BsCpu} from 'react-icons/bs'
 import TemperatureCard from '../../components/TemperatureCard'
-import {  ref, child, get,set } from "firebase/database";
+import {  ref, child,onValue,set } from "firebase/database";
 import database from '../../firebase'
 import { toast } from 'react-hot-toast'
 
@@ -124,32 +124,34 @@ const Remote = () => {
 
     });
   }
-  
   useEffect(() => {
-    
-    get(child(dbRef, `temperature/`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-        setTemperature(snapshot.val().toFixed(2))
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-    get(child(dbRef, `humidity/`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-        setHumidity(snapshot.val().toFixed(2))
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  },[dbRef,temperature,humidity])
+    const temperatureRef = child(dbRef, 'temperature/');
+    const humidityRef = child(dbRef, 'humidity/');
   
-
+    const temperatureListener = onValue(temperatureRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const temperatureValue = snapshot.val().toFixed(2);
+        setTemperature(temperatureValue);
+      } else {
+        console.log('No temperature data available');
+      }
+    });
+  
+    const humidityListener = onValue(humidityRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const humidityValue = snapshot.val().toFixed(2);
+        setHumidity(humidityValue);
+      } else {
+        console.log('No humidity data available');
+      }
+    });
+  
+    // Clean up listeners when the component unmounts
+    return () => {
+      temperatureListener();
+      humidityListener();
+    };
+  }, [dbRef]);
   
   return (
     <div className='w-full h-full pt-12 flex gap-5 items-start' >
