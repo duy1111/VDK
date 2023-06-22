@@ -46,7 +46,7 @@ const Remote = () => {
   }
   const onClickQ = () => {
    
-    set(ref(db, 'quatStatus'), {
+    set(ref(db, 'quatStatus/'), {
       
       quatStatus: isOnQ,  
     })
@@ -72,7 +72,7 @@ const Remote = () => {
   }
   const onClickB = () => {
     
-    set(ref(db, '/bomStatus'), {
+    set(ref(db, 'bomStatus/'), {
       bomStatus: isOnB,  
     })
     .then(() => {
@@ -97,7 +97,7 @@ const Remote = () => {
   }
   const onClickH = () => {
    
-    set(ref(db, '/systemStatus'), {
+    set(ref(db, 'systemStatus/'), {
       systemStatus: isOnH,  
     })
     .then(() => {
