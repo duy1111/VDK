@@ -21,28 +21,46 @@ const Remote = () => {
   const db = database;
     
   const onClickD = () => {
+    setIsOnD(!isOnD)
+    console.log(isOnD)
+    if(isOnD === true){
+      set(ref(db, 'ledStatus/'), {
+        ledStatus: true,  
+      })
+      .then(() => {
+        if(isOnD === true){
+          toast.success('Bật đèn thành công')
+          
+        }
+        
+        // Data saved successfully!
+      })
+      .catch((error) => {
+        // The write failed...
+        toast.error('Bật đèn thất bại')
+  
+      });
+    }
+    else{
+      set(ref(db, 'ledStatus/'), {
+        ledStatus: false,  
+      })
+      .then(() => {
+        if(isOnD === false){
+          toast.success('Tắt đèn thành công')
+          
+        }
+        
+        // Data saved successfully!
+      })
+      .catch((error) => {
+        // The write failed...
+        toast.error('Tắt đèn thất bại')
+  
+      });
+    }
     
-    set(ref(db, 'ledStatus/'), {
-      ledStatus: isOnD,  
-    })
-    .then(() => {
-      if(isOnD === false){
-        toast.success('Bật đèn thành công')
-        setIsOnD(true)
-      }else{
-        toast.success('Tắt đèn thành công')
-        setIsOnD(false)
-
-
-      }
-      
-      // Data saved successfully!
-    })
-    .catch((error) => {
-      // The write failed...
-      toast.error('Bật đèn thất bại')
-
-    });
+    
   }
   const onClickQ = () => {
    
