@@ -5,19 +5,14 @@ import { apiGetCategories } from '../../services/category';
 import { formatVietnameseToString } from '../../utils/constant';
 
 let arrCate = [
-  {"code":"home","value":"Trang chủ","active":true},
+ 
   {
     "code":"dieukhien",
     "value":"Điều khiển",
     "active":false,
 
   },
-  {
-    "code":"trangthai",
-    "value":"Xem trạng thái",
-    "active":false,
-    
-  }
+  
 ]
 const Navigation = () => {
   const [categories, setCategories] = useState(arrCate)
