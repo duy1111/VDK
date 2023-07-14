@@ -212,23 +212,24 @@ export default function Login({}) {
                           </small>
                         </>
                       ) : (
-                        <small>
-                          Chưa là thành viên?{" "}
-                          <span
-                            onClick={() => {
-                              setPayload({
-                                phone: "",
-                                name: "",
-                                password: "",
-                              })
-                              setIsRegister(true)
-                            }}
-                            className="text-red-500 cursor-pointer"
-                          >
-                            Đăng kí
-                          </span>{" "}
-                          tại đây
-                        </small>
+                        // <small>
+                        //   Chưa là thành viên?{" "}
+                        //   <span
+                        //     onClick={() => {
+                        //       setPayload({
+                        //         phone: "",
+                        //         name: "",
+                        //         password: "",
+                        //       })
+                        //       setIsRegister(true)
+                        //     }}
+                        //     className="text-red-500 cursor-pointer"
+                        //   >
+                        //     Đăng kí
+                        //   </span>{" "}
+                        //   tại đây
+                        // </small>
+                        <></>
                       )}
                     </div>
                   </div>
