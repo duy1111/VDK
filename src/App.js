@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       isLoggedIn && dispatch(actions.getCurrentUser());
-    },1000)
+    },10)
   })
   if(!isLoggedIn){
     return(

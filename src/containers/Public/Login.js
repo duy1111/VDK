@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import * as actions from "../../store/actions/index";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from '../../components/Loading';
+
 import { validate } from "../../utils/common/validateFields";
 let {
   AiOutlineClose,
@@ -23,13 +25,14 @@ export default function Login({}) {
   let [isRegister, setIsRegister] = React.useState(location.state?.flag);
   const [invalidFields, setInvalidFields] = useState([]);
   const {isLoggedIn,msg,update} = useSelector(state => state.auth)
+  const [isLoading, setIsLoading] = useState(false)
   const [payload, setPayload] = useState({
     phone: "",
     name: "",
     password: "",
   });
   let handleSubmit = async () => {
-    
+    setIsLoading(true);
     let finalPayload = isRegister ? payload : {
       phone: payload.phone,
       password: payload.password
@@ -37,9 +40,9 @@ export default function Login({}) {
     let invalids = validate(finalPayload,setInvalidFields);
     if(invalids === 0){
 
-      isRegister === true ? dispatch(actions.register(payload)) : dispatch(actions.login(payload))
+      isRegister === true ? await dispatch(actions.register(payload)) : await dispatch(actions.login(payload))
     }
-    
+    setIsLoading(false);
     navigate('/đieu-khien')
     setShowModal(false)
   };
@@ -61,7 +64,8 @@ export default function Login({}) {
     <>
       {showModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-sm">
+          {isLoading === true ? <Loading /> :(
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-sm">
             <div className="relative w-auto my-6 mx-auto max-w-4xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none h-full">
@@ -237,7 +241,9 @@ export default function Login({}) {
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          ) }
+          
+         
         </>
       ) : null}
     </>
