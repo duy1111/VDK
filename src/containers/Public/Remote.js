@@ -21,126 +21,76 @@ const Remote = () => {
   const db = database;
     
   const onClickD = () => {
-    setIsOnD(!isOnD)
-    console.log(isOnD)
-    if(isOnD === true){
-      set(ref(db, 'ledStatus/'), {
-        ledStatus: true,  
-      })
-      .then(() => {
-        if(isOnD === true){
-          toast.success('Bật đèn thành công')
-          
-        }
+    
+    set(ref(db, 'den/'), {
+      den:!isOnD ,  
+    })
+    .then(() => {
+      if(isOnD === false){
+        toast.success('Bật đèn thành công')
         
-        // Data saved successfully!
-      })
-      .catch((error) => {
-        // The write failed...
-        toast.error('Bật đèn thất bại')
-  
-      });
-    }
-    else{
-      set(ref(db, 'ledStatus/'), {
-        ledStatus: false,  
-      })
-      .then(() => {
-        if(isOnD === false){
-          toast.success('Tắt đèn thành công')
-          
-        }
-        
-        // Data saved successfully!
-      })
-      .catch((error) => {
-        // The write failed...
-        toast.error('Tắt đèn thất bại')
-  
-      });
-    }
+      }
+      
+      
+      // Data saved successfully!
+    }).finally(() => {
+      setIsOnD(!isOnD)
+    })
     
     
   }
   const onClickQ = () => {
    
-    set(ref(db, 'quatStatus/'), {
-      
-      quatStatus: isOnQ,  
+    set(ref(db, 'quat/'), {
+      quat:!isOnQ ,  
     })
     .then(() => {
       if(isOnQ === false){
         toast.success('Bật quạt thành công')
         
-        setIsOnQ(true)
-      }else{
-        toast.success('Tắt quạt thành công')
-        
-        setIsOnQ(false)
-
-
       }
+      
+      
       // Data saved successfully!
+    }).finally(() => {
+      setIsOnQ(!isOnQ)
     })
-    .catch((error) => {
-      // The write failed...
-      toast.error('Bật quạt thất bại')
-
-    });
   }
   const onClickB = () => {
     
-    set(ref(db, 'bomStatus/'), {
-      bomStatus: isOnB,  
+    set(ref(db, 'bom/'), {
+      bom:!isOnB ,  
     })
     .then(() => {
-      toast.success('Bật máy bơm thành công')
       if(isOnB === false){
         toast.success('Bật máy bơm thành công')
         
-        setIsOnB(true)
-      }else{
-        toast.success('Tắt máy bơm thành công')
-        
-        setIsOnB(false)
-
-
       }
+      
+      
+      // Data saved successfully!
+    }).finally(() => {
+      setIsOnB(!isOnB)
     })
-    .catch((error) => {
-      // The write failed...
-      toast.error('Bật máy bơm thất bại')
-
-    });
   }
   const onClickH = () => {
    
-    set(ref(db, 'systemStatus/'), {
-      systemStatus: isOnH,  
+    
+      
+    set(ref(db, 'system/'), {
+      system:!isOnH ,  
     })
     .then(() => {
       if(isOnH === false){
         toast.success('Bật hệ thống thành công')
         
-        
-        setIsOnH(true)
-      }else{
-        toast.success('Tắt hệ thống thành công')
-        
-        setIsOnH(false)
-
-
       }
       
-        // Data saved successfully!
+      
+      // Data saved successfully!
+    }).finally(() => {
+      setIsOnH(!isOnH)
     })
-    .catch((error) => {
-      // The write failed...
-      toast.error('Bật đèn thất bại')
-      setIsOnH(false)
-
-
-    });
   }
   useEffect(() => {
     const temperatureRef = child(dbRef, 'temperature/');
