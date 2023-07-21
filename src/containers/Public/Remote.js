@@ -15,6 +15,7 @@ const Remote = () => {
   const [isOnH, setIsOnH] = useState(false);
   const [temperature, setTemperature] = useState(0);
   const [humidity, setHumidity] = useState(0);
+  const [doAmDat, setDoAmDat] = useState(0);
 
   
   const dbRef = ref(database);
@@ -95,7 +96,7 @@ const Remote = () => {
   useEffect(() => {
     const temperatureRef = child(dbRef, 'temperature/');
     const humidityRef = child(dbRef, 'humidity/');
-  
+    const amDat = child(dbRef,'amdat/')
     const temperatureListener = onValue(temperatureRef, (snapshot) => {
       if (snapshot.exists()) {
         const temperatureValue = snapshot.val().toFixed(2);
@@ -113,11 +114,20 @@ const Remote = () => {
         console.log('No humidity data available');
       }
     });
+    const amDatListener = onValue(amDat, (snapshot) => {
+      if (snapshot.exists()) {
+        const amDatValue = snapshot.val().toFixed(2);
+        setDoAmDat(amDatValue);
+      } else {
+        console.log('No temperature data available');
+      }
+    });
   
     // Clean up listeners when the component unmounts
     return () => {
       temperatureListener();
       humidityListener();
+      amDatListener();
     };
   }, [dbRef]);
   
@@ -130,9 +140,11 @@ const Remote = () => {
         <ButtonOnOff Icons={BsCpu} onClick={onClickH} label={"Hệ thống"} isOn={isOnH} setIsOn={setIsOnH}  />
    
       </div>
-      <div className='h-full w-2/3 justify-around items-center flex  shadow-xl border-t pt-4'>
+      <div className='h-full w-2/3 justify-around items-center flex flex-wrap shadow-xl border-t pt-4'>
         <TemperatureCard label='Nhiệt độ' value={temperature} maxValue={'100'} symbol={'°C'} />
         <TemperatureCard label='Độ ẩm' value={humidity} maxValue={'100'} symbol={'°F'} />
+        
+        <TemperatureCard label='Độ ẩm đất' value={doAmDat} maxValue={'100'} symbol={'%'} />
         
         
       </div>
